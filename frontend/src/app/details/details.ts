@@ -33,7 +33,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
       </section>
       <section class="listing-apply">
         <h2 class="section-heading">Apply now to live here</h2>
-        <form [formGroup]="applyForm" (submit)="submitApplication()"> 
+        <form [formGroup]="applyForm" (submit)="submitApplication()">
           <!--event handler ^ calling the method within this class-->
           <label for="first-name">First Name</label>
           <input id="first-name" type="text" formControlName="firstName" />
@@ -60,9 +60,12 @@ export class Details {
   });
 
   constructor() {
-    const housingLocationId = Number(this.route.snapshot.params["id"]);
-    this.housingLocation =
-      this.housingService.getHousingLocationById(housingLocationId);
+    const housingLocationId = parseInt(this.route.snapshot.params["id"], 10);
+    this.housingService
+      .getHousingLocationById(housingLocationId)
+      .then((housingLocation) => {
+        this.housingLocation = housingLocation;
+      });
   }
 
   submitApplication() {
